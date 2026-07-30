@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>班级录入</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/lib/xlsx.full.min.js"></script>
+</head>
+<body>
+  <header class="toolbar">
+    <h1 class="toolbar-title">班级录入</h1>
+    <div class="toolbar-info" id="fileInfo"></div>
+    <div class="toolbar-actions">
+      <label class="btn btn-primary" id="uploadLabel">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+       上传班级文件
+        <input type="file" accept=".xlsx,.xls" id="fileInput" hidden multiple>
+      </label>
+      <button class="btn btn-secondary" id="exportBtn" disabled>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        导出
+      </button>
+    </div>
+  </header>
+
+  <!-- Reference images gallery -->
+  <div class="image-gallery" id="imageGallery" style="display:none">
+    <div class="gallery-header">
+      <span class="gallery-title">参考图片</span>
+      <label class="gallery-add-label">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        添加
+        <input type="file" accept="image/*" multiple id="imageInput" hidden>
+      </label>
+    </div>
+    <div class="gallery-scroll" id="galleryScroll"></div>
+  </div>
+
+  <main class="main-content">
+    <div id="classTabs" class="class-tabs" style="display:none"></div>
+    <div class="table-container" id="tableContainer">
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="0.4">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+        </div>
+        <p class="empty-title">上传班级开始录入</p>
+        <p class="empty-hint">点击上方「上传班级文件」按钮，选择班级名单，系统自动识别科目</p>
+        <p class="empty-hint second">支持 .xlsx / .xls 格式，系统会自动识别学生姓名和科目列</p>
+        <p class="empty-demo"><a href="/sample_%E6%88%90%E7%BB%A9%E6%A8%A1%E6%9D%BF.xlsx" download class="empty-demo-link">下载模板</a>，带 20 名学生数据，可以直接用来体验</p>
+        <div class="empty-divider"><span>或者</span></div>
+        <button class="btn btn-outline" id="createBlankBtn">新建空白</button>
+        <div class="create-form" id="createForm" style="display:none">
+          <div class="form-group">
+            <label class="form-label">学生姓名（每行一个）</label>
+            <textarea class="form-textarea" id="namesInput" rows="8" placeholder="张三&#10;李四&#10;王五&#10;赵六&#10;……"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">科目（用逗号分隔）</label>
+            <input class="form-input" id="subjectsInput" value="语文, 数学, 英语, 物理, 化学">
+          </div>
+          <button class="btn btn-primary" id="createTemplateBtn">创建并开始录入</button>
+        </div>
+      </div>
+    </div>
+    <aside class="stats-panel" id="statsPanel"></aside>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <!-- Lightbox for viewing full-size images -->
+  <div class="lightbox" id="lightbox" style="display:none">
+    <span class="lightbox-close" id="lightboxClose">&times;</span>
+    <img class="lightbox-content" id="lightboxImg">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script type="module" src="/main.js"></script>
+</body>
+</html>
+
